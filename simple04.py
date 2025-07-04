@@ -46,15 +46,17 @@ def delete(id:int):
 def get(id:int):
     res = Form(
             Group(
-                Input(id="t_title"),
-                Button("Save")
-            ),
-            Hidden(id="id"),
-            Checkbox(id="done", label='Done'),
-            Button('Back', hx_get='/'),
-            hx_put="/", id="edit"
+                Hidden(id="id",name="id"),
+                Label("done",_for="done"),
+                Input(name="done",type='checkbox',value="done"),
+                Input(name="t_title"),
+                Button('Back',hx_get='/',hx_target="Main"),
+                Button("Save",hx_put="/", id="edit",hx_target="Main"
+               )
+            )            
         )
     frm = fill_form(res, todos[id])
+    print(to_xml(frm))
     return Div('Edit Todo', frm)
 
 @rt("/todos/{id}")
