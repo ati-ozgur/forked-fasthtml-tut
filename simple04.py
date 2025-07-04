@@ -47,8 +47,8 @@ def get(id:int):
     res = Form(
             Group(
                 Hidden(id="id",name="id"),
+                Input(type='checkbox',id="done",name="done",value="done"),
                 Label("done",_for="done"),
-                Input(name="done",type='checkbox',value="done"),
                 Input(name="t_title"),
                 Button('Back',hx_get='/',hx_target="Main"),
                 Button("Save",hx_put="/", id="edit",hx_target="Main"
