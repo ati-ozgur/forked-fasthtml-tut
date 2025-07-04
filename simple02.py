@@ -1,13 +1,12 @@
-from fasthtml.fastapp import *
+from fasthtml.common import *
 
-app,todos,Todo = fast_app('data/todos.db', id=int, title=str, done=bool, pk='id')
-rt = app.route
+app,rt,todos,Todo = fast_app('data/todos.db', id=int, t_title=str, done=bool, pk='id')
 
 @rt("/")
 def get():
     todo_list = [
         Li(
-            A(todo.title, hx_get=f'/todos/{todo.id}'),
+            A(todo.t_title, hx_get=f'/todos/{todo.id}'),
             (' (done)' if todo.done else ''),
             id=f'todo-{todo.id}'
         ) for todo in todos()
@@ -17,12 +16,13 @@ def get():
                 header=add,
                 footer=Div(id='current-todo')
             )
-    return Page('Todo list', card)
+    return Main('Todo list', card)
 
 @rt("/todos/{id}")
 def get(id:int):
     contents = Div(
-        Div(todos[id].title),
-        Button('Back', hx_get='/')
+        Div(todos[id].t_title),
+        Button('Back', hx_get='/',hx_target="Main")
     )
-    return Page('Todo details', contents)
+    return Div('Todo details', contents)
+serve()
